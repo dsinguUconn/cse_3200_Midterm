@@ -24,7 +24,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import com.example.dedeepsingu_3200midtermtimers.ui.theme.MyAppTheme
+import java.util.concurrent.TimeUnit
 
+fun formatTime(timeInMillis: Long): String {
+    val hours = TimeUnit.MILLISECONDS.toHours(timeInMillis)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeInMillis) % 60
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(timeInMillis) % 60
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+}
 
 @Composable
 fun MainScreen(navController: NavController, viewModel: MainScreenViewModel) {
@@ -53,10 +60,9 @@ fun MainScreen(navController: NavController, viewModel: MainScreenViewModel) {
                     .fillMaxSize()
                     .padding(horizontal = 50.dp)
             ) {
-                val minutes = viewModel.currentTime.value / 60
-                val seconds = viewModel.currentTime.value % 60
-                Text("Time remaining: $minutes minutes, $seconds seconds", style = TextStyle(fontSize = 24.sp))
-
+                val minutes = viewModel.currentTime.intValue / 60
+                val seconds = viewModel.currentTime.intValue % 60
+                Text("Time remaining: ${formatTime(viewModel.currentTime.intValue.toLong() * 1000)}", style = TextStyle(fontSize = 24.sp))
                 if (viewModel.isInputVisible.value) {
                     OutlinedTextField(
                         value = viewModel.inputTime.value,

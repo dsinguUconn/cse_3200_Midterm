@@ -46,12 +46,9 @@ fun RightScreen(navController: NavController, viewModel: RightScreenViewModel) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 50.dp)){
-                val minutes = viewModel.currentTime.value / 60
-                val seconds = viewModel.currentTime.value % 60
-                Text(
-                    "Time remaining: $minutes minutes, $seconds seconds",
-                    style = TextStyle(fontSize = 24.sp)
-                )
+                val minutes = viewModel.currentTime.intValue / 60
+                val seconds = viewModel.currentTime.intValue % 60
+                Text("Time remaining: ${formatTime(viewModel.currentTime.intValue.toLong() * 1000)}", style = TextStyle(fontSize = 24.sp))
 
                 if (viewModel.isInputVisible.value) {
                     OutlinedTextField(
